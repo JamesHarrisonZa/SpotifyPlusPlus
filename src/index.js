@@ -9,19 +9,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 class Login extends React.Component {
 
-	constructor(){
-		super();
-		this._scopes = ['user-library-read', 'user-modify-playback-state'];
-		this._spotify = new Spotify({
-			clientId: '599acb0ea60443bd94be56f2ff0d500a',
-			clientSecret: process.env.REACT_APP_SPOTIFY_CLIENT_SECRET,
-			redirectUri: 'http://localhost:42420/callback'
-		});
-	}
-
 	onClick() {
 
-		this._spotify.createAuthorizeURL(this._scopes, {})
+		//Make server request
 	}
 
 	render() {
