@@ -3,14 +3,26 @@ import ReactDOM from 'react-dom';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
+import SpotifyWebApi from 'spotify-web-api-node';
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 class Login extends React.Component {
 
+	constructor(){
+		super();
+		//ToDo: DONT CHECK THIS IN
+		this._scopes = ['user-library-read', 'user-modify-playback-state'];
+		this._spotifyWebApi = new SpotifyWebApi({
+			clientId: '599acb0ea60443bd94be56f2ff0d500a',
+			clientSecret: '', //todo
+			redirectUri: 'http://localhost:42420/callback'
+		});
+	}
+
 	onClick() {
 
-		console.log(42)
+		this._spotifyWebApi.createAuthorizeURL(this._scopes, {})
 	}
 
 	render() {
