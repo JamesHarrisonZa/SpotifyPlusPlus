@@ -17,7 +17,12 @@ class Login extends React.Component {
 	componentDidMount(){
 		const parsed = queryString.parse(window.location.search);
 		const accessToken = parsed.access_token;
+		const refreshToken = parsed.refresh_token;
 		console.log(`accessToken: ${accessToken}`);
+		console.log(`refreshToken: ${refreshToken}`);
+		
+		// spotifyApi.setAccessToken(accessToken);
+		// spotifyApi.setRefreshToken(refreshToken);
 	}
 
 	render() {
