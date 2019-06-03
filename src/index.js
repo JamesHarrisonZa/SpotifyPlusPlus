@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
-//import SpotifyWebApi from 'spotify-web-api-node';
+import SpotifyWebApi from 'spotify-web-api-node';
 import queryString from 'query-string';
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -21,8 +21,18 @@ class Login extends React.Component {
 		console.log(`accessToken: ${accessToken}`);
 		console.log(`refreshToken: ${refreshToken}`);
 		
-		// spotifyApi.setAccessToken(accessToken);
-		// spotifyApi.setRefreshToken(refreshToken);
+		if (accessToken) {
+
+			(async () => {
+				const spotify = new SpotifyWebApi({
+					clientId: '599acb0ea60443bd94be56f2ff0d500a',
+				});
+				spotify.setAccessToken(accessToken);
+				spotify.setRefreshToken(refreshToken);
+				const savedTracks = await spotify.getMySavedTracks();
+				console.log(savedTracks.body.items);
+			})();
+		}
 	}
 
 	render() {
