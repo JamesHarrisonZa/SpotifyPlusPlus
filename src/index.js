@@ -7,11 +7,16 @@ import SpotifyWebApi from 'spotify-web-api-node';
 import queryString from 'query-string';
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Login from './login';
 
-class Login extends React.Component {
+class Index extends React.Component {
 
-	onClick() {
-		window.location = 'http://localhost:42420/login';
+	constructor(props){
+		super(props);
+		this.state = {
+			accessToken: null,
+			refreshToken: null
+		};
 	}
 
 	componentDidMount(){
@@ -23,38 +28,16 @@ class Login extends React.Component {
 		
 		if (accessToken) {
 
-			(async () => {
-				const spotify = new SpotifyWebApi({
-					clientId: '599acb0ea60443bd94be56f2ff0d500a',
-				});
-				spotify.setAccessToken(accessToken);
-				spotify.setRefreshToken(refreshToken);
-				const savedTracks = await spotify.getMySavedTracks();
-				console.log(savedTracks.body.items);
-			})();
+			this.setState({
+				accessToken: accessToken,
+				refreshToken: refreshToken,
+			});
 		}
 	}
 
 	render() {
 		return (
-			<Container>
-				<Row className='justify-content-md-center'>
-					<h1>Welcome</h1>
-				</Row>
-				<Row className='justify-content-md-center'>
-					<div>
-						<p>Filter your saved songs for a given mood you are going for</p>
-					</div>
-				</Row>
-				<Row className='justify-content-md-center'>
-					<Button
-						variant='outline-success'
-						onClick={() => this.onClick()}
-						>
-							Login to Spotify
-					</Button>
-				</Row>
-			</Container>
+			<Login />
 		);
 	}
 }
@@ -62,6 +45,6 @@ class Login extends React.Component {
 // ========================================
 
 ReactDOM.render(
-	<Login />,
+	<Index />,
 	document.getElementById('root')
 );
