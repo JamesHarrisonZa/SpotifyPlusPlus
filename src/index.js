@@ -1,17 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import SpotifyWebApi from 'spotify-web-api-node';
 import queryString from 'query-string';
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from './login';
+import SongGrid from './songGrid';
 
 class Index extends React.Component {
 
-	constructor(props){
+	constructor(props) {
 		super(props);
 		this.state = {
 			accessToken: null,
@@ -19,14 +16,14 @@ class Index extends React.Component {
 		};
 	}
 
-	componentDidMount(){
+	componentDidMount() {
 		const parsed = queryString.parse(window.location.search);
 		const accessToken = parsed.access_token;
 		const refreshToken = parsed.refresh_token;
 		console.log(`accessToken: ${accessToken}`);
 		console.log(`refreshToken: ${refreshToken}`);
-		
-		if (accessToken) {
+
+		if (this.state.accessToken || accessToken) {
 
 			this.setState({
 				accessToken: accessToken,
@@ -36,9 +33,16 @@ class Index extends React.Component {
 	}
 
 	render() {
-		return (
-			<Login />
-		);
+
+		if (this.state.accessToken) {
+			return (
+				<SongGrid 
+					accessToken={this.state.accessToken}
+					refreshToken={this.state.refreshToken}
+				/>
+			);
+		}
+		return <Login />;
 	}
 }
 
