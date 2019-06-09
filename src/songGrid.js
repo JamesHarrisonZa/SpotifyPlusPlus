@@ -1,14 +1,13 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Image from 'react-bootstrap/Image';
 import SpotifyWebApi from 'spotify-web-api-node';
 
 class SongGrid extends React.Component {
 
-	constructor(props){
+	constructor(props) {
 		super(props);
 
 		const spotify = new SpotifyWebApi({
@@ -18,20 +17,17 @@ class SongGrid extends React.Component {
 		spotify.setRefreshToken(props.refreshToken);
 
 		this.state = {
-			spotify: spotify
+			spotify: spotify,
+			data: []
 		}
 	}
 
-	async getSavedTracks() {
-		return await this.state.spotify.getMySavedTracks();
-	}
-
-	render() {
+	componentDidMount() {
 
 		this.getSavedTracks()
 			.then((result) => {
 
-				var songs = result.body.items
+				const data = result.body.items
 					.map((item) => {
 						return {
 							uri: item.track.uri,
@@ -45,24 +41,36 @@ class SongGrid extends React.Component {
 							albumImages: item.track.album.images
 						};
 					});
+				this.setState({
+					spotify: this.state.spotify,
+					data: data
+				});
+			});
+	}
 
+	render() {
+
+		const songColumns = this.state.data
+			.map((song) => {
+				
 				return (
-					<Container>
-						<Row className='justify-content-md-center'>
-							<Col>A</Col>
-							<Col>B</Col>
-							<Col>C</Col>
-						</Row>
-					</Container>
-				);
+					<Col key={song.name}>
+						<Image src={song.albumImages[2].url} rounded />
+					</Col>
+				)
 			});
 
 		return (
 			<Container>
-				<p>Loading...</p>
+				<Row>{songColumns}</Row>
 			</Container>
 		);
 	}
-} 
+
+	async getSavedTracks() {
+		return await this.state.spotify.getMySavedTracks();
+	}
+
+}
 
 export default SongGrid;
