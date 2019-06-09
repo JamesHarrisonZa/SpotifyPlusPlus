@@ -33,11 +33,7 @@ class SongGrid extends React.Component {
 							uri: item.track.uri,
 							name: item.track.name,
 							artists: item.track.artists
-								.map((artist) => {
-									return {
-										name: artist.name
-									}
-								}),
+								.map((artist) => artist.name),
 							albumImages: item.track.album.images
 						};
 					});
@@ -52,25 +48,27 @@ class SongGrid extends React.Component {
 
 		const songColumns = this.state.data
 			.map((song) => {
-				
 				return (
 					<Col key={song.name}>
 						<Image src={song.albumImages[2].url} rounded />
+						<p>{song.name}</p>
+						<p>{song.artists.join(', ')}</p>
 					</Col>
 				)
 			});
 
 		return (
 			<Container>
+				<h1 class="text-center"> Saved Tracks </h1>
 				<Row>{songColumns}</Row>
 			</Container>
 		);
 	}
 
+	//ToDo: Pagination
 	async getSavedTracks() {
 		return await this.state.spotify.getMySavedTracks();
 	}
-
 }
 
 export default SongGrid;
