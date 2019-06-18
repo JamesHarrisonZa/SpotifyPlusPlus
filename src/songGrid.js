@@ -48,10 +48,10 @@ class SongGrid extends React.Component {
 		const songColumns = this.state.data
 			.map((song) => {
 				return (
-					<Col key={song.name}>
-						<Image src={song.albumImages[2].url} rounded />
-						<p>{song.name}</p>
-						<p>{song.artists.join(', ')}</p>
+					<Col className = "col-2" key={song.name}>
+						<Image className="rounded mx-auto d-block" src={song.albumImages[2].url} rounded />
+						<div className="text-center">{song.name}</div>
+						<p className="text-center">{song.artists.join(', ')}</p>
 					</Col>
 				)
 			});
