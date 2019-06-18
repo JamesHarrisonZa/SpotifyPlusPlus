@@ -17,11 +17,12 @@ class Index extends React.Component {
 	}
 
 	componentDidMount() {
+
+		document.body.className = "bg-dark text-light";
+
 		const parsed = queryString.parse(window.location.search);
 		const accessToken = parsed.access_token;
 		const refreshToken = parsed.refresh_token;
-		console.log(`accessToken: ${accessToken}`);
-		console.log(`refreshToken: ${refreshToken}`);
 
 		if (this.state.accessToken || accessToken) {
 
