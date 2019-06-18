@@ -14,15 +14,15 @@ class Login extends React.Component {
 	render() {
 		return (
 			<Container>
-				<Row className='justify-content-md-center'>
+				<Row className='d-flex justify-content-center'>
 					<h1>Welcome</h1>
 				</Row>
-				<Row className='justify-content-md-center'>
+				<Row className='d-flex justify-content-center'>
 					<div>
 						<p>Filter your saved songs for a given mood you are going for</p>
 					</div>
 				</Row>
-				<Row className='justify-content-md-center'>
+				<Row className='d-flex justify-content-center'>
 					<Button
 						variant='outline-success'
 						onClick={() => this.onClick()}
