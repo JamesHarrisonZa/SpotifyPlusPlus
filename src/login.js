@@ -1,10 +1,7 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
-import SpotifyWebApi from 'spotify-web-api-node';
-import queryString from 'query-string';
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
