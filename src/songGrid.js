@@ -22,26 +22,25 @@ class SongGrid extends React.Component {
 		}
 	}
 
-	componentDidMount() {
+	async componentDidMount() {
 
-		this.getSavedTracks()
-			.then((result) => {
+		const limit = 50;
+		let currentOffset = 0;
+		let fetchedAllTracks = false;
 
-				const data = result.body.items
-					.map((item) => {
-						return {
-							uri: item.track.uri,
-							name: item.track.name,
-							artists: item.track.artists
-								.map((artist) => artist.name),
-							albumImages: item.track.album.images
-						};
-					});
-				this.setState({
-					spotify: this.state.spotify,
-					data: data
-				});
+		while (!fetchedAllTracks) {
+
+			const data = await this.getSavedTracks(currentOffset, limit);
+			if (data.length === 0){
+				fetchedAllTracks = true;
+			}
+			currentOffset += limit;
+
+			this.setState({
+				spotify: this.state.spotify,
+				data: this.state.data.concat(data)
 			});
+		}
 	}
 
 	render() {
@@ -59,15 +58,30 @@ class SongGrid extends React.Component {
 
 		return (
 			<Container>
-				<h1 class="text-center"> Saved Tracks </h1>
+				<h1 className="text-center"> Saved Tracks </h1>
 				<Row>{songColumns}</Row>
 			</Container>
 		);
 	}
 
-	//ToDo: Pagination
-	async getSavedTracks() {
-		return await this.state.spotify.getMySavedTracks();
+	async getSavedTracks(offset, limit) {
+
+		const paginationOptions = {
+			offset: offset,
+			limit: limit
+		};
+		const result = await this.state.spotify.getMySavedTracks(paginationOptions);
+
+		return result.body.items
+			.map((item) => {
+				return {
+					uri: item.track.uri,
+					name: item.track.name,
+					artists: item.track.artists
+						.map((artist) => artist.name),
+					albumImages: item.track.album.images
+				};
+			});
 	}
 }
 
