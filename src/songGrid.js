@@ -48,7 +48,7 @@ class SongGrid extends React.Component {
 		const songColumns = this.state.data
 			.map((song) => {
 				return (
-					<Col className = "col-2" key={song.name}>
+					<Col className="col-2" key={song.id}>
 						<Image className="rounded mx-auto d-block" src={song.albumImages[2].url} rounded />
 						<div className="text-center">{song.name}</div>
 						<p className="text-center">{song.artists.join(', ')}</p>
@@ -75,6 +75,7 @@ class SongGrid extends React.Component {
 		return result.body.items
 			.map((item) => {
 				return {
+					id: item.track.id,
 					uri: item.track.uri,
 					name: item.track.name,
 					artists: item.track.artists
