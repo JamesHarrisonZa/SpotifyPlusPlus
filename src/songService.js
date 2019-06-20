@@ -1,14 +1,8 @@
-import SpotifyWebApi from 'spotify-web-api-node';
-
 class SongService {
 
-	constructor(accessToken, refreshToken) {
+	constructor(spotify) {
 
-		this._spotify = new SpotifyWebApi({
-			clientId: '599acb0ea60443bd94be56f2ff0d500a',
-		});
-		this._spotify.setAccessToken(accessToken);
-		this._spotify.setRefreshToken(refreshToken);
+		this._spotify = spotify;
 	}
 
 	async getSavedTracks(offset, limit) {

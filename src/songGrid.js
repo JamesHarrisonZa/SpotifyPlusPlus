@@ -10,7 +10,7 @@ class SongGrid extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this._songService = new SongService(props.accessToken, props.refreshToken);
+		this._songService = new SongService(props.spotify);
 
 		this.state = {
 			data: []
