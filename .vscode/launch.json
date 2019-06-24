@@ -2,7 +2,7 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"name": "Chrome", //NOTE This requires "Debugger for Chrome" extension installed
+			"name": "Chrome", //NOTE This requires "Debugger for Chrome" extension installed in VSCODE
 			"type": "chrome",
 			"request": "launch",
 			"url": "http://localhost:3000",
