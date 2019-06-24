@@ -5,6 +5,10 @@ class SongService {
 		this._spotify = spotify;
 	}
 
+	/**
+	 * @param {Number} offset 
+	 * @param {Number} limit
+	 */
 	async getSavedTracks(offset, limit) {
 
 		const paginationOptions = {
@@ -24,6 +28,15 @@ class SongService {
 					albumImages: item.track.album.images
 				};
 			});
+	}
+
+	/**
+	 * @param {Array<Number>} songIds 
+	 */
+	async getAudioFeatures(songIds) {
+
+		const result = await this._spotify.getAudioFeatures(songIds);
+		return result;
 	}
 }
 
