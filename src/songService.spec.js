@@ -48,7 +48,6 @@ describe('SongService', () => {
 				"id": "4JpKVNYnVcJ8tuMKjAj50A",
 				"instrumentalness": 0.159,
 				"liveness": 0.376,
-				"loudness": -12.733,
 				"speechiness": 0.168,
 				"valence": 0.369
 			}, {
@@ -58,7 +57,6 @@ describe('SongService', () => {
 				"id": "2NRANZE9UCmPAS5XVbXL40",
 				"instrumentalness": 0.0319,
 				"liveness": 0.103,
-				"loudness": -7.199,
 				"speechiness": 0.034,
 				"valence": 0.382
 			}, {
@@ -68,7 +66,6 @@ describe('SongService', () => {
 				"id": "24JygzOLM0EmRQeGtFcIcG",
 				"instrumentalness": 0.83,
 				"liveness": 0.0593,
-				"loudness": -17.921,
 				"speechiness": 0.0291,
 				"valence": 0.0748
 			}];

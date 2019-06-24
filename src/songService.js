@@ -15,7 +15,7 @@ class SongService {
 			offset: offset,
 			limit: limit
 		};
-		const result = await this._spotify.getMySavedTracks(paginationOptions);
+		const result = await this._spotify.getMySavedTracks(paginationOptions); //https://developer.spotify.com/documentation/web-api/reference/library/get-users-saved-tracks/
 
 		return result.body.items
 			.map((item) => {
@@ -35,14 +35,14 @@ class SongService {
 	 */
 	async getAudioFeaturesForTracks(songIds) {
 
-		const result = await this._spotify.getAudioFeaturesForTracks(songIds);
+		const result = await this._spotify.getAudioFeaturesForTracks(songIds); //https://developer.spotify.com/documentation/web-api/reference/tracks/get-several-audio-features/
+		
 		return result.body.audio_features
 			.map((item) => {
 				return {
 					id: item.id,
 					danceability: item.danceability,
 					energy: item.energy,
-					loudness: item.loudness,
 					speechiness: item.speechiness,
 					acousticness: item.acousticness,
 					instrumentalness: item.instrumentalness,
