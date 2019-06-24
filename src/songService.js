@@ -33,10 +33,23 @@ class SongService {
 	/**
 	 * @param {Array<Number>} songIds 
 	 */
-	async getAudioFeatures(songIds) {
+	async getAudioFeaturesForTracks(songIds) {
 
-		const result = await this._spotify.getAudioFeatures(songIds);
-		return result;
+		const result = await this._spotify.getAudioFeaturesForTracks(songIds);
+		return result.body.audio_features
+			.map((item) => {
+				return {
+					id: item.id,
+					danceability: item.danceability,
+					energy: item.energy,
+					loudness: item.loudness,
+					speechiness: item.speechiness,
+					acousticness: item.acousticness,
+					instrumentalness: item.instrumentalness,
+					liveness: item.liveness,
+					valence: item.valence
+				}
+			});
 	}
 }
 
