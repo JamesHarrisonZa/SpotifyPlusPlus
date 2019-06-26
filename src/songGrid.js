@@ -25,7 +25,7 @@ class SongGrid extends React.Component {
 
 		while (!fetchedAllTracks) {
 
-			const data = await this._songService.getSavedTracks(currentOffset, limit);
+			const data = await this._songService.getTracksWithAudioFeatures(currentOffset, limit);
 			if (data.length === 0){
 				fetchedAllTracks = true;
 			}

@@ -1,3 +1,5 @@
+import Song from "./song";
+
 class SongService {
 
 	constructor(spotify) {
@@ -49,6 +51,42 @@ class SongService {
 					liveness: item.liveness,
 					valence: item.valence
 				}
+			});
+	}
+
+	/**
+	 * @param {Number} offset
+	 * @param {Number} limit
+	 */
+	async getTracksWithAudioFeatures(offset, limit){
+
+		const savedTracks = await this.getSavedTracks(offset, limit);
+		if (savedTracks.length === 0){
+			return [];
+		}
+		const trackIds = savedTracks.map(x => x.id);
+		const audioFeaturesForTracks = await this.getAudioFeaturesForTracks(trackIds);
+
+		return savedTracks
+			.map(track => {
+
+				const trackFeatures = audioFeaturesForTracks
+					.filter(x => x.id === track.id)[0];
+
+				return new Song(
+					track.id, 
+					track.name, 
+					track.uri, 
+					track.artists, 
+					track.albumImages,
+					trackFeatures.danceability,
+					trackFeatures.energy,
+					trackFeatures.speechiness,
+					trackFeatures.acousticness,
+					trackFeatures.instrumentalness,
+					trackFeatures.liveness,
+					trackFeatures.valence
+				)
 			});
 	}
 }
