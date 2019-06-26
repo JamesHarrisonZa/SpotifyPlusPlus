@@ -1,4 +1,4 @@
-class Song {
+class Track {
 
 	constructor(id, name, uri, artists, albumImages, danceability, energy, speechiness, acousticness, instrumentalness, liveness, valence){
 
@@ -18,4 +18,4 @@ class Song {
 	}
 }
 
-export default Song;
+export default Track;

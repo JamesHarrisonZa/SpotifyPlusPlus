@@ -3,14 +3,14 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Image from 'react-bootstrap/Image';
-import SongService from './songService';
+import TrackService from './trackService';
 
-class SongGrid extends React.Component {
+class TrackGrid extends React.Component {
 
 	constructor(props) {
 		super(props);
 
-		this._songService = new SongService(props.spotify);
+		this._trackService = new TrackService(props.spotify);
 
 		this.state = {
 			data: []
@@ -25,7 +25,7 @@ class SongGrid extends React.Component {
 
 		while (!fetchedAllTracks) {
 
-			const data = await this._songService.getTracksWithAudioFeatures(currentOffset, limit);
+			const data = await this._trackService.getTracksWithAudioFeatures(currentOffset, limit);
 			if (data.length === 0){
 				fetchedAllTracks = true;
 			}
@@ -39,13 +39,13 @@ class SongGrid extends React.Component {
 
 	render() {
 
-		const songColumns = this.state.data
-			.map((song) => {
+		const trackColumns = this.state.data
+			.map((track) => {
 				return (
-					<Col className="col-2" key={song.id}>
-						<Image className="rounded mx-auto d-block" src={song.albumImages[2].url} rounded />
-						<div className="text-center">{song.name}</div>
-						<p className="text-center">{song.artists.join(', ')}</p>
+					<Col className="col-2" key={track.id}>
+						<Image className="rounded mx-auto d-block" src={track.albumImages[2].url} rounded />
+						<div className="text-center">{track.name}</div>
+						<p className="text-center">{track.artists.join(', ')}</p>
 					</Col>
 				)
 			});
@@ -53,10 +53,10 @@ class SongGrid extends React.Component {
 		return (
 			<Container>
 				<h1 className="text-center"> Saved Tracks </h1>
-				<Row>{songColumns}</Row>
+				<Row>{trackColumns}</Row>
 			</Container>
 		);
 	}
 }
 
-export default SongGrid;
+export default TrackGrid;

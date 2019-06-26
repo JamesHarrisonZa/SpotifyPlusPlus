@@ -1,6 +1,6 @@
-import Song from "./song";
+import Track from "./track";
 
-class SongService {
+class TrackService {
 
 	constructor(spotify) {
 
@@ -33,11 +33,11 @@ class SongService {
 	}
 
 	/**
-	 * @param {Array<Number>} songIds 
+	 * @param {Array<Number>} trackIds 
 	 */
-	async getAudioFeaturesForTracks(songIds) {
+	async getAudioFeaturesForTracks(trackIds) {
 
-		const result = await this._spotify.getAudioFeaturesForTracks(songIds); //https://developer.spotify.com/documentation/web-api/reference/tracks/get-several-audio-features/
+		const result = await this._spotify.getAudioFeaturesForTracks(trackIds); //https://developer.spotify.com/documentation/web-api/reference/tracks/get-several-audio-features/
 		
 		return result.body.audio_features
 			.map((item) => {
@@ -73,7 +73,7 @@ class SongService {
 				const trackFeatures = audioFeaturesForTracks
 					.filter(x => x.id === track.id)[0];
 
-				return new Song(
+				return new Track(
 					track.id, 
 					track.name, 
 					track.uri, 
@@ -91,4 +91,4 @@ class SongService {
 	}
 }
 
-export default SongService;
+export default TrackService;

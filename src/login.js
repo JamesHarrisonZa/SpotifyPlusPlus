@@ -19,7 +19,7 @@ class Login extends React.Component {
 				</Row>
 				<Row className='d-flex justify-content-center'>
 					<div>
-						<p>Filter your saved songs for a given mood you are going for</p>
+						<p>Filter your saved tracks for a given mood you are going for</p>
 					</div>
 				</Row>
 				<Row className='d-flex justify-content-center'>

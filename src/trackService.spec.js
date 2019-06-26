@@ -1,6 +1,6 @@
-import SongService from './songService';
+import TrackService from './trackService';
 
-describe('SongService', () => {
+describe('TrackService', () => {
 
 	describe('getSavedTracks()', () => {
 
@@ -212,5 +212,5 @@ function createSut() {
 		getMySavedTracks: getMySavedTracksMock,
 		getAudioFeaturesForTracks: getAudioFeaturesForTracks
 	};
-	return new SongService(spotifyMock);
+	return new TrackService(spotifyMock);
 }

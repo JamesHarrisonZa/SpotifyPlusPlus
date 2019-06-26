@@ -1,13 +1,13 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import SongGrid from './SongGrid';
+import TrackGrid from './TrackGrid';
 
 
-describe('SongGrid', () => {
+describe('TrackGrid', () => {
 
 	it('renders without crashing', () => {
 		const div = document.createElement('div');
-		ReactDOM.render(<SongGrid />, div);
+		ReactDOM.render(<TrackGrid />, div);
 	});
 });

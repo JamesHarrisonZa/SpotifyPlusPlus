@@ -5,7 +5,7 @@ import SpotifyWebApi from 'spotify-web-api-node';
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from './login';
-import SongGrid from './songGrid';
+import TrackGrid from './trackGrid';
 
 class Index extends React.Component {
 
@@ -42,7 +42,7 @@ class Index extends React.Component {
 
 		if (this.state.spotify) {
 			return (
-				<SongGrid 
+				<TrackGrid 
 					spotify={this.state.spotify}
 				/>
 			);
