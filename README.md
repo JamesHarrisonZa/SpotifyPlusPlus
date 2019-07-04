@@ -17,6 +17,8 @@ Then send the filtered tracks to their spotify client.
 
 ## ToDo:
 
+* Change the slider to a range slider with min and max values
+* Be able to toggle a slider on/off
 * Rename TrackGrid.js
 * More/better specs
 * Styling tweaks
