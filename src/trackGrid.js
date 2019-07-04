@@ -37,6 +37,21 @@ class TrackGrid extends React.Component {
 		}
 	}
 
+	getSliderColumns(){
+
+		const audioFeatures = ['Acousticness', 'Danceability', 'Energy', 'Instrumentalness', 'Liveness', 'Speechiness', 'Valence'];
+
+		return audioFeatures
+			.map((feature) => {
+				return (
+					<Col> 
+						<div className="text-center">{feature}</div>
+						<input type="range" className=" form-control-range" id="formControlRange" />
+					</Col>
+				);
+			});
+	}
+
 	render() {
 
 		const trackColumns = this.state.data
@@ -50,9 +65,14 @@ class TrackGrid extends React.Component {
 				)
 			});
 
+		const sliderColumns = this.getSliderColumns();
+
 		return (
 			<Container>
-				<h1 className="text-center"> Saved Tracks </h1>
+				<h1 className="text-center">Saved Tracks</h1>
+
+				<Row className="d-flex flex-row flex-wrap mb-4">{sliderColumns}</Row>
+				
 				<Row>{trackColumns}</Row>
 			</Container>
 		);
