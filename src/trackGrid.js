@@ -11,19 +11,20 @@ class TrackGrid extends React.Component {
 		super(props);
 
 		this._trackService = new TrackService(props.spotify);
-		this._audioFeatures = ['Acousticness', 'Danceability', 'Energy', 'Instrumentalness', 'Liveness', 'Speechiness', 'Valence'];
+		this._audioFeatures = ['acousticness', 'danceability', 'energy', 'instrumentalness', 'liveness', 'speechiness', 'valence'];
 		this.sliderOnChange = this.sliderOnChange.bind(this);
 
 		this.state = {
 			trackData: [],
+			filteredTrackData: [],
 			sliderValues: {
-				Acousticness: 0,
-				Danceability: 0,
-				Energy: 0,
-				Instrumentalness: 0,
-				Liveness: 0,
-				Speechiness: 0,
-				Valence: 0,
+				acousticness: 0,
+				danceability: 0,
+				energy: 0,
+				instrumentalness: 0,
+				liveness: 0,
+				speechiness: 0,
+				valence: 0,
 			}
 		}
 	}
@@ -35,31 +36,65 @@ class TrackGrid extends React.Component {
 		let fetchedAllTracks = false;
 
 		while (!fetchedAllTracks) {
-
 			const trackData = await this._trackService.getTracksWithAudioFeatures(currentOffset, limit);
 			if (trackData.length === 0){
 				fetchedAllTracks = true;
 			}
 			currentOffset += limit;
 
+			const updatedTrackData = this.state.trackData.concat(trackData);
+
 			this.setState({
-				trackData: this.state.trackData.concat(trackData),
+				trackData: updatedTrackData,
+				filteredTrackData: updatedTrackData,
 				sliderValues: this.state.sliderValues
 			});
 		}
 	}
 
 	sliderOnChange(event) {
-		const value = event.target.value;
 		const sliderName = event.target.name;
+		const sliderValue = event.target.value;
 
 		const updatedSliderValues = this.state.sliderValues;
-		updatedSliderValues[sliderName] = value;
+		updatedSliderValues[sliderName] = sliderValue;
+
+		const updatedFilteredTrackData = this.getUpdatedFilteredTrackData();
+		console.log('updatedFilteredTrackData', updatedFilteredTrackData.length)
 
 		this.setState({
 			trackData: this.state.trackData,
+			filteredTrackData: updatedFilteredTrackData,
 			sliderValues: updatedSliderValues
 		});
+	}
+
+	getUpdatedFilteredTrackData() {
+
+		const variance = 0.1;
+
+		const isCloseToSliderValue = (trackValue, sliderValue, variance) => {
+
+			return (
+				(Number(trackValue) >= Number(sliderValue) - variance) &&
+				(Number(trackValue) <= Number(sliderValue) + variance)
+			);
+		}
+
+		return this._audioFeatures
+			.reduce((trackData, audioFeature) => {
+
+				return trackData
+					.filter((track) => {
+						const trackValue = track[audioFeature];
+						const sliderValue = this.state.sliderValues[audioFeature];
+
+						if(sliderValue === 0) {
+							return true;
+						}
+						return isCloseToSliderValue(trackValue, sliderValue, variance)
+				});
+			}, this.state.trackData);
 	}
 
 	getSliderColumns() {
@@ -69,7 +104,7 @@ class TrackGrid extends React.Component {
 				return (
 					<Col key={feature}> 
 						<div className="text-center">{feature}</div>
-						<input name={feature} type="range" className="form-control-range" onChange={this.sliderOnChange}/>
+						<input name={feature} type="range" className="form-control-range" onChange={this.sliderOnChange} min="0.0" max="1.0" step="0.1"/>
 					</Col>
 				);
 			});
@@ -77,7 +112,7 @@ class TrackGrid extends React.Component {
 
 	getTrackColumns() {
 
-		return this.state.trackData
+		return this.state.filteredTrackData
 			.map((track) => {
 				return (
 					<Col className="col-2" key={track.id}>
@@ -91,15 +126,13 @@ class TrackGrid extends React.Component {
 
 	render() {
 
-		const sliders = this.getSliderColumns();
+		const sliderColumns = this.getSliderColumns();
 		const trackColumns = this.getTrackColumns();
 
 		return (
 			<Container>
 				<h1 className="text-center">Saved Tracks</h1>
-
-				<Row className="mb-4">{sliders}</Row>
-				
+				<Row className="mb-4">{sliderColumns}</Row>
 				<Row>{trackColumns}</Row>
 			</Container>
 		);
