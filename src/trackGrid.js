@@ -3,8 +3,10 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Image from 'react-bootstrap/Image';
+import Button from 'react-bootstrap/Button';
 import TrackService from './trackService';
 
+//ToDo: Consider new name as its doing more now
 class TrackGrid extends React.Component {
 
 	constructor(props) {
@@ -124,6 +126,15 @@ class TrackGrid extends React.Component {
 			});
 	}
 
+	listenOnClick() {
+
+		const trackUris = this.state.filteredTrackData
+			.map((track) => track.uri);
+		console.log('trackIds', trackUris);
+
+		this._trackService.playTracksOnActiveSpotifyClient(trackUris);
+	}
+
 	render() {
 
 		const sliderColumns = this.getSliderColumns();
@@ -131,8 +142,18 @@ class TrackGrid extends React.Component {
 
 		return (
 			<Container>
-				<h1 className="text-center">Saved Tracks</h1>
+				<h1 className="text-center">
+					Saved Tracks
+				</h1>
 				<Row className="mb-4">{sliderColumns}</Row>
+				<Row className='justify-content-center mb-4'>
+					<Button
+						variant='outline-success'
+						onClick={() => this.listenOnClick()}
+					>
+						Listen
+					</Button>
+				</Row>
 				<Row>{trackColumns}</Row>
 			</Container>
 		);

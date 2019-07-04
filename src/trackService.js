@@ -89,6 +89,14 @@ class TrackService {
 				)
 			});
 	}
+
+	/**
+	 * @param {Array<Number>} trackIds 
+	 */
+	playTracksOnActiveSpotifyClient(trackIds){
+
+		this._spotify.play({uris: trackIds});
+	}
 }
 
 export default TrackService;
