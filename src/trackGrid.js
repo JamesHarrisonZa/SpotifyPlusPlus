@@ -11,9 +11,20 @@ class TrackGrid extends React.Component {
 		super(props);
 
 		this._trackService = new TrackService(props.spotify);
+		this._audioFeatures = ['Acousticness', 'Danceability', 'Energy', 'Instrumentalness', 'Liveness', 'Speechiness', 'Valence'];
+		this.sliderOnChange = this.sliderOnChange.bind(this);
 
 		this.state = {
-			data: []
+			trackData: [],
+			sliderValues: {
+				Acousticness: 0,
+				Danceability: 0,
+				Energy: 0,
+				Instrumentalness: 0,
+				Liveness: 0,
+				Speechiness: 0,
+				Valence: 0,
+			}
 		}
 	}
 
@@ -25,28 +36,40 @@ class TrackGrid extends React.Component {
 
 		while (!fetchedAllTracks) {
 
-			const data = await this._trackService.getTracksWithAudioFeatures(currentOffset, limit);
-			if (data.length === 0){
+			const trackData = await this._trackService.getTracksWithAudioFeatures(currentOffset, limit);
+			if (trackData.length === 0){
 				fetchedAllTracks = true;
 			}
 			currentOffset += limit;
 
 			this.setState({
-				data: this.state.data.concat(data)
+				trackData: this.state.trackData.concat(trackData),
+				sliderValues: this.state.sliderValues
 			});
 		}
 	}
 
+	sliderOnChange(event) {
+		const value = event.target.value;
+		const sliderName = event.target.name;
+
+		const updatedSliderValues = this.state.sliderValues;
+		updatedSliderValues[sliderName] = value;
+
+		this.setState({
+			trackData: this.state.trackData,
+			sliderValues: updatedSliderValues
+		});
+	}
+
 	getSliderColumns() {
 
-		const audioFeatures = ['Acousticness', 'Danceability', 'Energy', 'Instrumentalness', 'Liveness', 'Speechiness', 'Valence'];
-
-		return audioFeatures
+		return this._audioFeatures
 			.map((feature) => {
 				return (
-					<Col> 
+					<Col key={feature}> 
 						<div className="text-center">{feature}</div>
-						<input type="range" className=" form-control-range" id="formControlRange" />
+						<input name={feature} type="range" className="form-control-range" onChange={this.sliderOnChange}/>
 					</Col>
 				);
 			});
@@ -54,7 +77,7 @@ class TrackGrid extends React.Component {
 
 	getTrackColumns() {
 
-		return this.state.data
+		return this.state.trackData
 			.map((track) => {
 				return (
 					<Col className="col-2" key={track.id}>
