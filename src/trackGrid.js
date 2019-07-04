@@ -37,7 +37,7 @@ class TrackGrid extends React.Component {
 		}
 	}
 
-	getSliderColumns(){
+	getSliderColumns() {
 
 		const audioFeatures = ['Acousticness', 'Danceability', 'Energy', 'Instrumentalness', 'Liveness', 'Speechiness', 'Valence'];
 
@@ -52,9 +52,9 @@ class TrackGrid extends React.Component {
 			});
 	}
 
-	render() {
+	getTrackColumns() {
 
-		const trackColumns = this.state.data
+		return this.state.data
 			.map((track) => {
 				return (
 					<Col className="col-2" key={track.id}>
@@ -64,14 +64,18 @@ class TrackGrid extends React.Component {
 					</Col>
 				)
 			});
+	}
 
-		const sliderColumns = this.getSliderColumns();
+	render() {
+
+		const sliders = this.getSliderColumns();
+		const trackColumns = this.getTrackColumns();
 
 		return (
 			<Container>
 				<h1 className="text-center">Saved Tracks</h1>
 
-				<Row className="d-flex flex-row flex-wrap mb-4">{sliderColumns}</Row>
+				<Row className="mb-4">{sliders}</Row>
 				
 				<Row>{trackColumns}</Row>
 			</Container>
